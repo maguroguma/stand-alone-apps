@@ -2,9 +2,17 @@
   <div>
     <input type="text" v-model="content" />
     <button>編集</button>
-    <button v-if="!isDone" @click="toggleIsDone({ id })">完了</button>
-    <button v-else @click="toggleIsDone({ id })">戻す</button>
-    <button @click="disappear({ id })">削除</button>
+    <button
+      v-if="!isDone"
+      @click="toggleIsDone({ id: tid })"
+      :id="'done-' + tid"
+    >
+      完了
+    </button>
+    <button v-else @click="toggleIsDone({ id: tid })" :id="'return-' + tid">
+      戻す
+    </button>
+    <button @click="disappear({ id: tid })" :id="'remove-' + tid">削除</button>
   </div>
 </template>
 
@@ -15,27 +23,27 @@ import * as mutations from "../store/mutation-types";
 export default {
   name: "TodoItem",
   props: {
-    id: Number,
+    tid: Number,
   },
   computed: {
     ...mapGetters(["getTodoItemById"]),
     // 双方向算出プロパティ
     content: {
       get() {
-        return this.getTodoItemById(this.id).content;
+        return this.getTodoItemById(this.tid).content;
       },
       set(value) {
         this.editContent({
-          id: this.id,
+          id: this.tid,
           content: value,
         });
       },
     },
     isDone() {
-      return this.getTodoItemById(this.id).isDone;
+      return this.getTodoItemById(this.tid).isDone;
     },
     isDeleted() {
-      return this.getTodoItemById(this.id).isDeleted;
+      return this.getTodoItemById(this.tid).isDeleted;
     },
   },
   methods: {

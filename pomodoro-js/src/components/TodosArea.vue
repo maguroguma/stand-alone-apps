@@ -1,10 +1,24 @@
 <template>
-  <div>
+  <div id="todos-area">
     <todo-add></todo-add>
     <div>TODOリスト</div>
-    <todo-item v-for="id in inProgTodosIds" :key="id" :id="id"></todo-item>
+    <div id="todo-list">
+      <todo-item
+        v-for="id in inProgTodosIds"
+        :key="id"
+        :tid="id"
+        :id="'item-' + id"
+      ></todo-item>
+    </div>
     <div>完了したTODOリスト</div>
-    <todo-item v-for="id in doneTodosIds" :key="id" :id="id"></todo-item>
+    <div id="done-list">
+      <todo-item
+        v-for="id in doneTodosIds"
+        :key="id"
+        :tid="id"
+        :id="'item-' + id"
+      ></todo-item>
+    </div>
   </div>
 </template>
 
@@ -20,9 +34,6 @@ export default {
     TodoAdd,
   },
   computed: {
-    nameAndAge() {
-      return this.name + this.age;
-    },
     ...mapGetters(["inProgTodosIds", "doneTodosIds"]),
   },
 };
